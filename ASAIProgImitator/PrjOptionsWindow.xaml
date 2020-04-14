@@ -1,0 +1,130 @@
+﻿<Window x:Class="ASAIProgImitator.PrjOptionsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Свойства Проекта" WindowStyle="ToolWindow" ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    
+    <Grid Background="LightGray" Height="Auto" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="Размеры и сетка" Background="LightGray"
+                  MinWidth="250">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Ширина поля "
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center" />
+                    <ComboBox Name="widthComboBox" Grid.Row="0" Grid.Column="1">
+                        <ComboBoxItem>500 км</ComboBoxItem>
+                        <ComboBoxItem Selector.IsSelected="True">1000 км</ComboBoxItem>
+                        <ComboBoxItem>1500 км</ComboBoxItem>
+                        <ComboBoxItem>2000 км</ComboBoxItem>
+                        <ComboBoxItem>2500 км</ComboBoxItem>
+                        <ComboBoxItem>3000 км</ComboBoxItem>
+                        <ComboBoxItem>3500 км</ComboBoxItem>
+                        <ComboBoxItem>4000 км</ComboBoxItem>
+                        <ComboBoxItem>4500 км</ComboBoxItem>
+                        <ComboBoxItem>5000 км</ComboBoxItem>
+                    </ComboBox>
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="Высота поля "
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"/>
+                    <ComboBox Name="heightComboBox" Grid.Row="1" Grid.Column="1" Text="Высота поля"
+                              HorizontalAlignment="Stretch">
+                        <ComboBoxItem>500 км</ComboBoxItem>
+                        <ComboBoxItem Selector.IsSelected="True">1000 км</ComboBoxItem>
+                        <ComboBoxItem>1500 км</ComboBoxItem>
+                        <ComboBoxItem>2000 км</ComboBoxItem>
+                        <ComboBoxItem>2500 км</ComboBoxItem>
+                        <ComboBoxItem>3000 км</ComboBoxItem>
+                        <ComboBoxItem>3500 км</ComboBoxItem>
+                        <ComboBoxItem>4000 км</ComboBoxItem>
+                        <ComboBoxItem>4500 км</ComboBoxItem>
+                        <ComboBoxItem>5000 км</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+                <CheckBox Name="gridVisibleCheckBox" Grid.Row="1" HorizontalAlignment="Center">Отображать сетку</CheckBox>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Шаг по горизонтали  "
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center" />
+                    <ComboBox Name="gridXStepComboBox" Grid.Row="0" Grid.Column="1">
+                        <ComboBoxItem>50 км</ComboBoxItem>
+                        <ComboBoxItem Selector.IsSelected="True">100 км</ComboBoxItem>
+                        <ComboBoxItem>150 км</ComboBoxItem>
+                        <ComboBoxItem>200 км</ComboBoxItem>
+                    </ComboBox>
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="Шаг по вертикали  "
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center" />
+                    <ComboBox Name="gridYStepComboBox" Grid.Row="1" Grid.Column="1" Text="Высота поля">
+                        <ComboBoxItem>50 км</ComboBoxItem>
+                        <ComboBoxItem Selector.IsSelected="True">100 км</ComboBoxItem>
+                        <ComboBoxItem>150 км</ComboBoxItem>
+                        <ComboBoxItem>200 км</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button Name="OkButton" Grid.Column="0"
+                    Click="OkButton_Click">Применить</Button>
+            <Button Grid.Column="1" Click="CancelButton_Click">Отмена</Button>
+        </Grid>
+        <GroupBox Grid.Row="1" Header="Временные рамки">
+            <StackPanel Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Длительность   "
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center" />
+                    <TextBox Name="durTextBox" Grid.Column="1"
+                             Text="0:10:00"
+                             TextChanged="durTextBox_TextChanged" />
+                </Grid>
+                <CheckBox Name="repeatCheckBox"
+                          HorizontalAlignment="Center">Повторять по кругу</CheckBox>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Header="Протокол">
+            <CheckBox Name="syncDoubCheckBox" IsChecked="True"
+                      HorizontalAlignment="Center">Дублировать синхробайт [0xAA]</CheckBox>
+        </GroupBox>
+    </Grid>
+</Window>

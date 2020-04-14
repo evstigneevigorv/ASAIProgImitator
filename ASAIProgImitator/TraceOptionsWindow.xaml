@@ -1,0 +1,165 @@
+﻿<Window x:Class="ASAIProgImitator.TraceOptionsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Свойства трассы"
+    SizeToContent="Height" Width="300"
+    WindowStyle="ToolWindow"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen">
+    
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0"
+                  Header="Параметры движения">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="Длина трассы, км   "
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <TextBox Name="lenghtTextBox"
+                         Grid.Row="0" Grid.Column="1"
+                         IsEnabled="False"
+                         HorizontalContentAlignment="Center" />
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="Скорость ВО, км/ч   "
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <TextBox Name="speedTextBox"
+                         Grid.Row="1" Grid.Column="1"
+                         Text="{Binding ElementName=speedSlider,
+                                        Path=Value,
+                                        Mode=OneWay}"
+                         IsEnabled="False"
+                         HorizontalContentAlignment="Center" />
+                <Slider Name="speedSlider"
+                        Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                        Minimum="0.0" Maximum="6000.0"
+                        SmallChange="10.0" LargeChange="100.0"
+                        TickFrequency="10.0" IsSnapToTickEnabled="True" />
+            </Grid>
+        </GroupBox>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Name="OkButton"
+                    Grid.Column="0"
+                    Click="OkButton_Click"
+                    Content="OK" />
+            <Button Name="CancelButton"
+                    Grid.Column="1"
+                    Click="CancelButton_Click"
+                    Content="Отмена" />
+        </Grid>
+        <GroupBox Grid.Row="1"
+                  Header="Кодовая посылка">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="2.5*" />
+                    <ColumnDefinition Width="0.5*" />
+                </Grid.ColumnDefinitions>
+                
+                <!-- Индивидуальный номер -->
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="Номер борта   "
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <TextBox Name="indvNumbTextBox"
+                         Grid.Row="0" Grid.Column="1"
+                         Text="10000"
+                         HorizontalContentAlignment="Center"
+                         TextChanged="indvNumbTextBox_TextChanged" />
+                
+                <!-- Начальный ОТ -->
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="Начальный ОТ   "
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <TextBox Name="bgnOTTextBox"
+                         Grid.Row="1" Grid.Column="1"
+                         Text="100.0"
+                         HorizontalContentAlignment="Center"
+                         TextChanged="otTextBox_TextChanged" />
+                <TextBlock Grid.Row="1" Grid.Column="2"
+                           Text=" %"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center" />
+                
+                <!-- Конечный ОТ -->
+                <TextBlock Grid.Row="2" Grid.Column="0"
+                           Text="Конечный ОТ   "
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <TextBox Name="endOTTextBox"
+                         Grid.Row="2" Grid.Column="1"
+                         Text="50.0"
+                         HorizontalContentAlignment="Center"
+                         TextChanged="otTextBox_TextChanged" />
+                <TextBlock Grid.Row="2" Grid.Column="2"
+                           Text=" %"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center" />
+                
+                <!-- Начальная высота -->
+                <TextBlock Grid.Row="3" Grid.Column="0"
+                           Text="Начальная высота   "
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <TextBox Name="bgnHTextBox"
+                         Grid.Row="3" Grid.Column="1"
+                         Text="10.0"
+                         HorizontalContentAlignment="Center"
+                         TextChanged="hTextBox_TextChanged" />
+                <TextBlock Grid.Row="3" Grid.Column="2"
+                           Text=" км"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center" />
+                
+                <!-- Конечная высота -->
+                <TextBlock Grid.Row="4" Grid.Column="0"
+                           Text="Конечная высота   "
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+                <TextBox Name="endHTextBox"
+                         Grid.Row="4" Grid.Column="1"
+                         Text="25.0"
+                         HorizontalContentAlignment="Center"
+                         TextChanged="hTextBox_TextChanged" />
+                <TextBlock Grid.Row="4" Grid.Column="2"
+                           Text=" км"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center" />
+                
+                <!-- Бедствие -->
+                <CheckBox Name="troubleCheckBox"
+                          Grid.Row="5"
+                          Grid.Column="0" Grid.ColumnSpan="3"
+                          HorizontalAlignment="Center">Бедствие</CheckBox>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

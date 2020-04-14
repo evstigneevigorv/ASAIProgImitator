@@ -1,0 +1,430 @@
+﻿<Window x:Class="ASAIProgImitator.RLSOptionsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:loc="clr-namespace:ASAIProgImitator"
+    Title="Свойства РЛС"
+    WindowStyle="ToolWindow"
+    WindowStartupLocation="CenterScreen"
+    SizeToContent="Height" Width="420"
+    Loaded="RLSOptionsWindow_Loaded"
+    ResizeMode="NoResize">
+    
+    <Window.Resources>
+        <loc:RLSTypeToIndexConverter x:Key="convRLSTypeToIndex" />
+    </Window.Resources>
+    
+    <Grid Name="rlsDataGrid" Background="LightGray"
+          VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="Наименование и тип">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="Название станции   " HorizontalAlignment="Right"/>
+                <TextBox Name="nameTextBox"
+                         Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                         HorizontalContentAlignment="Center"
+                         Text="{Binding Path=Name, Mode=TwoWay}" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Канал   "
+                           HorizontalAlignment="Right" />
+                <ComboBox Name="chComboBox"
+                          Grid.Row="2" Grid.Column="1"
+                          HorizontalContentAlignment="Center"
+                          SelectedIndex="{Binding Path=ChNmb, Mode=TwoWay}">
+                </ComboBox>
+                <TextBlock Name="reqTextBlock"
+                           Grid.Row="3" Grid.Column="0" Text="Сигнал запроса   "
+                           HorizontalAlignment="Right" />
+                <ComboBox Name="reqComboBox"
+                          Grid.Row="3" Grid.Column="1"
+                          HorizontalContentAlignment="Center"
+                          SelectedIndex="{Binding Path=ReqSignal, Mode=TwoWay}"
+                          IsEnabled="False">
+                    <ComboBoxItem>Индивидуальный номер</ComboBoxItem>
+                    <ComboBoxItem>Высота / Топливо</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="Тип станции   " HorizontalAlignment="Right" />
+                <ComboBox Name="typeComboBox"
+                          Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                          HorizontalContentAlignment="Center"
+                          SelectedIndex="{Binding Path=Type, Mode=TwoWay}"
+                          SelectionChanged="typeComboBox_SelectionChanged">
+                    <ComboBoxItem>ПРЛ</ComboBoxItem>
+                    <ComboBoxItem>ВРЛ</ComboBoxItem>
+                    <ComboBoxItem>НРЗ</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Параметры">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="1.7*" />
+                    <ColumnDefinition Width="1.3*" />
+                </Grid.ColumnDefinitions>
+                
+                <!-- Дистанция -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1"
+                           Text="Дистанция   " HorizontalAlignment="Right" />
+                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1"
+                         Text="{Binding ElementName=distSlider,
+                                        Path=Value}"
+                         IsEnabled="False" HorizontalContentAlignment="Center" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1"
+                           Text=" км" HorizontalAlignment="Left" />
+                <Slider Name="distSlider"
+                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                        Value="{Binding Path=Distance}"
+                        Minimum="200.0" Maximum="1200.0"
+                        TickFrequency="100.0" IsSnapToTickEnabled="True"/>
+                
+                <!-- Шаг сетки по дальности -->
+                <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1"
+                           Text="Шаг сетки по дальности   "
+                           HorizontalAlignment="Right" />
+                <ComboBox Name="dStepComboBox"
+                          Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1"
+                          SelectedIndex="{Binding Path=DStep, Mode=TwoWay}"
+                          HorizontalContentAlignment="Center">
+                    <ComboBoxItem>50 км</ComboBoxItem>
+                    <ComboBoxItem>100 км</ComboBoxItem>
+                    <ComboBoxItem>150 км</ComboBoxItem>
+                    <ComboBoxItem>200 км</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1"
+                           Text=" км" />
+                
+                <!-- Шаг сетки по азимуту -->
+                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1"
+                           Text="Шаг сетки по азимуту   "
+                           HorizontalAlignment="Right" />
+                <ComboBox Name="aStepComboBox"
+                          Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1"
+                          SelectedIndex="{Binding Path=AStep, Mode=TwoWay}"
+                          HorizontalContentAlignment="Center">
+                    <ComboBoxItem>15 гр</ComboBoxItem>
+                    <ComboBoxItem>30 гр</ComboBoxItem>
+                    <ComboBoxItem>45 гр</ComboBoxItem>
+                    <ComboBoxItem>90 гр</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="1"
+                           Text=" км" />
+                
+                <!-- Скорость вращения -->
+                <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1"
+                           Text="Скорость вращения   "
+                           HorizontalAlignment="Right" />
+                <TextBox Name="rateTextBox"
+                         Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1"
+                         Text="{Binding ElementName=rateSlider,
+                                        Path=Value}"
+                         IsEnabled="False" HorizontalContentAlignment="Center" />
+                <TextBlock Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1"
+                           Text=" об/мин" />
+                <Slider Name="rateSlider"
+                        Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"
+                        Value="{Binding Path=Rate, Mode=TwoWay}"
+                        TickFrequency="0.25" IsSnapToTickEnabled="True"
+                        Minimum="0.25" Maximum="6" />
+
+                <!-- Ширина ДН -->
+                <TextBlock Grid.Row="6" Grid.Column="0"
+                           Text="Ширина ДН   "
+                           HorizontalAlignment="Right" />
+                <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1"
+                         Text="{Binding ElementName=widthSlider,
+                                Path=Value}"
+                         IsEnabled="False" HorizontalContentAlignment="Center" />
+                <TextBlock Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="1"
+                           Text=" 360 гр / 4096" />
+                <Slider Name="widthSlider"
+                        Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3"
+                        Value="{Binding Path=Width, Mode=TwoWay}"
+                        TickFrequency="1.0" IsSnapToTickEnabled="True"
+                        Minimum="1.0" Maximum="16.0" />
+                
+                <!-- Длительность ИЗ -->
+                <TextBlock Name="strDurCaptTextBlock"
+                           Grid.Row="8" Grid.Column="0"
+                           Text="Длительность ИЗ   "
+                           HorizontalAlignment="Right" />
+                <TextBox Name="strDurTextBox"
+                         Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1"
+                         Text="{Binding ElementName=strDurSlider,
+                                        Path=Value}"
+                         IsEnabled="False" HorizontalContentAlignment="Center" />
+                <TextBlock Name="strDurUnitTextBlock"
+                           Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="1"
+                           Text=" мкс " />
+                <Slider Name="strDurSlider"
+                        Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3"
+                        Value="{Binding Path=StrDuration, Mode=TwoWay}"
+                        TickFrequency="0.5" IsSnapToTickEnabled="True"
+                        Minimum="0.5" Maximum="6.0" />
+                
+                <!-- Порог обнаружения -->
+                <TextBlock Name="trshCaptTextBlock"
+                           Grid.Row="10" Grid.Column="0"
+                           Text="Порог обнаружения   "
+                           HorizontalAlignment="Right" />
+                <TextBox Name="trshTextBox"
+                         Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="1"
+                         Text="{Binding ElementName=trshSlider,
+                                Path=Value}"
+                         IsEnabled="False" HorizontalContentAlignment="Center" />
+                <TextBlock Name="trshUnitTextBlock"
+                           Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="1"
+                           Text=" %" />
+                <Slider Name="trshSlider"
+                        Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3"
+                        Value="{Binding Path=Trsh, Mode=TwoWay}"
+                        TickFrequency="1.0" IsSnapToTickEnabled="True"
+                        Minimum="0.0" Maximum="100.0" />
+                
+                <!-- Положение визира -->
+                <TextBlock Grid.Row="12" Grid.Column="0"
+                           Text="Положение визира   "
+                           HorizontalAlignment="Right" />
+                <TextBox Grid.Row="12" Grid.Column="1"
+                         IsEnabled="False" TextAlignment="Center"
+                         Text="{Binding ElementName=angleSlider, Path=Value, Mode=OneWay}" />
+                <TextBlock Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="1"
+                           Text=" гр" />
+                <Slider Name="angleSlider"
+                        Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="3"
+                        Minimum="0" Maximum="360"
+                        Value="{Binding Path=Visir, Mode=TwoWay}"
+                        TickFrequency="10.0" IsSnapToTickEnabled="True" />
+                
+                <!-- Тип диаграммы направленности -->
+                <TextBlock Name="diagTypeTextBlock"
+                           Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="1"
+                           Text="Тип диаграммы направленности   "
+                           HorizontalAlignment="Right" />
+                <ComboBox Name="diagTypeComboBox"
+                          Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="1"
+                          SelectedIndex="{Binding Path=DiagType, Mode=TwoWay}"
+                          HorizontalContentAlignment="Center">
+                    <ComboBoxItem>Равномерная</ComboBoxItem>
+                    <ComboBoxItem>Вида Sin(x)/x</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Name="statNRZGroupBox"
+                  Grid.Row="2" Header="Состояние НРЗ">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <ToggleButton Height="25" Width="25"
+                              Content="T" ToolTip="Тревога НРЗ"
+                              IsChecked="{Binding Path=statNRZ[6],
+                                                  Mode=TwoWay}" />
+                <ToggleButton Height="25" Width="25"
+                              Content="O" ToolTip="Отказ 64"
+                              IsChecked="{Binding Path=statNRZ[5],
+                                                  Mode=TwoWay}" />
+                <ToggleButton Height="25" Width="25"
+                              Content="И" ToolTip="Неисправность имитатора"
+                              IsChecked="{Binding Path=statNRZ[4],
+                                                  Mode=TwoWay}" />
+                <ToggleButton Height="25" Width="25"
+                              Content="III" ToolTip="Индикация режима III"
+                              IsChecked="{Binding Path=statNRZ[3],
+                                                  Mode=TwoWay}" />
+                <ToggleButton Height="25" Width="25"
+                              Content="II" ToolTip="Индикация режима II"
+                              IsChecked="{Binding Path=statNRZ[2],
+                                                  Mode=TwoWay}" />
+                <ToggleButton Height="25" Width="25"
+                              Content="Д7" ToolTip="Идикация диапазона VII"
+                              IsChecked="{Binding Path=statNRZ[1],
+                                                  Mode=TwoWay}" />
+                <ToggleButton Height="25" Width="25"
+                              Content="M" ToolTip="Индикация МАНИП"
+                              IsChecked="{Binding Path=statNRZ[0],
+                                                  Mode=TwoWay}" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="3" Header="Выходные данные">
+            <ListBox Name="ctgListBox" BorderBrush="DarkGray"
+                     Margin="5" SelectionMode="Single"
+                     HorizontalContentAlignment="Stretch"
+                     Height="Auto">
+                <ListBoxItem>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5.0*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="2.2*" />
+                            <ColumnDefinition Width="1.0*" />
+                            <ColumnDefinition Width="1.2*" />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Name="ctg0CheckBox"
+                          Grid.Row="0" Grid.Column="0"
+                          Content=""
+                          IsChecked="{Binding Path=ctgEn[0],
+                                              Mode=TwoWay}"
+                          VerticalAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          Checked="ctgCheckBox_Checked"
+                          Unchecked="ctgCheckBox_Unchecked" />
+                                  
+                        <TextBlock Grid.Row="0" Grid.Column="1"
+                           Text="IP "
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right" />
+                        <TextBox Name="ctg0IPTextBox"
+                         Grid.Row="0" Grid.Column="2"
+                         Text="{Binding Path=ipAddress[0], Mode=TwoWay}"
+                         IsEnabled="{Binding ElementName=ctg0CheckBox,
+                                             Path=IsChecked,
+                                             Mode=OneWay}"
+                         TextChanged="ctgIPTextBox_TextChanged" />
+                        <TextBlock Grid.Row="0" Grid.Column="3"
+                           Text="Порт "
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right" />
+                        <TextBox Name="ctg0PortTextBox"
+                         Grid.Row="0" Grid.Column="4"
+                         Text="{Binding Path=ipPort[0],
+                                        Mode=TwoWay}"
+                         IsEnabled="{Binding ElementName=ctg0CheckBox,
+                                             Path=IsChecked,
+                                             Mode=OneWay}"
+                         TextChanged="ctgPortTextBox_TextChanged" />
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5.0*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="2.2*" />
+                            <ColumnDefinition Width="1.0*" />
+                            <ColumnDefinition Width="1.2*" />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Name="ctg1CheckBox"
+                          Grid.Row="0" Grid.Column="0"
+                          Content=""
+                          IsChecked="{Binding Path=ctgEn[1],
+                                              Mode=TwoWay}"
+                          VerticalAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          Checked="ctgCheckBox_Checked"
+                          Unchecked="ctgCheckBox_Unchecked" />
+                        <TextBlock Grid.Row="0" Grid.Column="1"
+                           Text="IP "
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right" />
+                        <TextBox Name="ctgIPTextBox"
+                         Grid.Row="0" Grid.Column="2"
+                         Text="{Binding Path=ipAddress[1], Mode=TwoWay}"
+                         IsEnabled="{Binding ElementName=ctg1CheckBox,
+                                             Path=IsChecked,
+                                             Mode=OneWay}"
+                         TextChanged="ctgIPTextBox_TextChanged"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3"
+                           Text="Порт "
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right" />
+                        <TextBox Name="ctgPortTextBox"
+                         Grid.Row="0" Grid.Column="4"
+                         Text="{Binding Path=ipPort[1],
+                                        Mode=TwoWay}"
+                         IsEnabled="{Binding ElementName=ctg1CheckBox,
+                                             Path=IsChecked,
+                                             Mode=OneWay}"
+                         TextChanged="ctgPortTextBox_TextChanged" />
+                    </Grid>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5.0*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="2.2*" />
+                            <ColumnDefinition Width="1.0*" />
+                            <ColumnDefinition Width="1.2*" />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Name="ctg2CheckBox"
+                                  Grid.Row="0" Grid.Column="0"
+                                  Content=""
+                                  IsChecked="{Binding Path=ctgEn[2],
+                                                      Mode=TwoWay}"
+                                  VerticalAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  Checked="ctgCheckBox_Checked"
+                                  Unchecked="ctgCheckBox_Unchecked" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="1"
+                                   Text="IP "
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Right" />
+                        <TextBox Name="ctg2IPTextBox"
+                                 Grid.Row="0" Grid.Column="2"
+                                 Text="{Binding Path=ipAddress[2], Mode=TwoWay}"
+                                 IsEnabled="{Binding ElementName=ctg2CheckBox,
+                                                     Path=IsChecked,
+                                                     Mode=OneWay}"
+                                 TextChanged="ctgIPTextBox_TextChanged" />
+                        <TextBlock Grid.Row="0" Grid.Column="3"
+                                   Text="Порт "
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Right" />
+                        <TextBox Name="ctg2PortTextBox"
+                                 Grid.Row="0" Grid.Column="4"
+                                 Text="{Binding Path=ipPort[2],
+                                                Mode=TwoWay}"
+                                 IsEnabled="{Binding ElementName=ctg2CheckBox,
+                                                     Path=IsChecked,
+                                                     Mode=OneWay}"
+                                 TextChanged="ctgPortTextBox_TextChanged" />
+                    </Grid>
+                </ListBoxItem>
+            </ListBox>
+        </GroupBox>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Name="okButton"
+                    Grid.Column="0" Grid.ColumnSpan="1"
+                    Click="okButton_Click">ОК</Button>
+            <Button Grid.Column="1" Grid.ColumnSpan="2"
+                    Click="cancelButton_Click">Отмена</Button>
+        </Grid>
+    </Grid>
+</Window>

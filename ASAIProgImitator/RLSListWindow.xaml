@@ -1,0 +1,52 @@
+﻿<Window x:Class="ASAIProgImitator.RLSListWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:loc="clr-namespace:ASAIProgImitator"
+    Name="rlsListWindow" Title="Список РЛС" Height="300" Width="500"
+    MinWidth="200" MinHeight="100"
+    MaxWidth="800" MaxHeight="400"
+    WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen"
+    Loaded="rlsListWindow_Loaded">
+
+    <Window.Resources>
+        <loc:IndexToIsSelectedConverter x:Key="convIndexToIsSelected" />
+    </Window.Resources>
+    
+    <Grid Background="LightGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ListBox Name="rlsListBox" Grid.Column="0" BorderBrush="DarkGray"
+                 Margin="5" SelectionMode="Single"
+                 HorizontalContentAlignment="Stretch" />
+        <Grid Grid.Column="1" Background="LightGray">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Vertical"
+                        Margin="0, 5, 0, 0">
+                <Button Click="AddButton_Click">Добавить</Button>
+                <Button Click="OptionsButton_Click"
+                        IsEnabled="{Binding ElementName=rlsListBox,
+                                            Path=SelectedIndex,
+                                            Converter={StaticResource convIndexToIsSelected}}">
+                    Свойства ...
+                </Button>
+                <Button Click="DeleteButton_Click"
+                        IsEnabled="{Binding ElementName=rlsListBox,
+                                            Path=SelectedIndex,
+                                            Converter={StaticResource convIndexToIsSelected}}">
+                    Удалить
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Vertical"
+                        Margin="0, 0, 0, 5">
+                <Button Click="OkButton_Click" VerticalAlignment="Bottom">OK</Button>
+                <Button Click="CancelButton_Click" VerticalAlignment="Bottom">Отмена</Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
+
